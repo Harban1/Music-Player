@@ -196,7 +196,8 @@ class MusicLibrary:
                     writer = csv.writer(file)
                     writer.writerow(songs)
 
-        # write exceptions
+        except Exception as e:
+            print(f"Error deleting song: {e}")
 
     # def create playlist
     def createPlaylist(self):
@@ -235,54 +236,29 @@ class MusicLibrary:
                         print(f"'{playlistName}' is created with {len(songID)} songs.")
 
             except Exception as e:
-                print(f"Playlist couldn't be made due to {e} error")
+                print(f"Playlist couldn't be made due to {e}")
         
         else:
             print("There is nothing in your playlist")
             return
+
+
+
+    def songExists(self, songID):
+        """check if song id is in library"""
+
+        try:
+            with open(self.libraryFile, "r") as file:
+                reader = csv.reader(file)
+                next(reader)
+
+                for row in reader:
+                    ids = row[0]
+                    if ids == songID:
+                        return True
+                    
+                return False
         
-            
+        except:
+            return False
 
-
-
-
-        
-
-    
-    
-    
-  
-    # open playlist file and append song
-    # csv.writer
-    # for loop for songid in songids
-    # playlist name, song id, current date, current time
-    # print(playlist created with (no of songs) songs)
-    # expections
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                            
-                        
-                
-
-
-
-
-            
