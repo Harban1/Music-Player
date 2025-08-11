@@ -199,21 +199,59 @@ class MusicLibrary:
         # write exceptions
 
     # def create playlist
-    # print "create playlist"
-    # ask playlist name plus strip
-    # if user doesnt enter anything print playlist name cant be empty and return
-    # print add songs to playlist
-    # enter the song ids and press enter when done
-    # while loop while true
-    # input list songID
-    # enter song id or press enter to finish + strip
-    # if input is empty then break
-    # if valid song id exists
-    # assume "songexists" func
-    # if songexists(songid)
-    # then append songID to list Song ID
-    # print song id added to playlist
-    # else song id not found
+    def createPlaylist(self):
+        """creating new playlist """
+        print("\nCreate playlist: ")
+
+        playlistName = input("Enter the name of your new playlist: ").strip()
+        if not playlistName:
+            print("Your name cannot be empty.")
+            return
+        
+        print("Add songs to playlist:")
+        print("Enter song IDs of your songs then press enter or leave blank to end.")
+
+        songIDs = []
+        while True:
+            songID = input("Enter song ID: ").strip()
+            if not songID:
+                break
+
+            if self.songExists(songID):
+                songIDs.append(songID)
+                print(f"The song id {songID} is added to {playlistName}")
+            else:
+                print("This song doesnt exist.")
+                return
+
+        if songIDs: 
+
+            try:     
+                with open(self.playlist, "a", newline = "") as file:
+                    writer = csv.writer(file)
+                    
+                    for songs in songIDs:
+                        writer.writerow([playlistName,songs,datetime.now().strftime("%d-%m-%Y")])
+                        print(f"'{playlistName}' is created with {len(songID)} songs.")
+
+            except Exception as e:
+                print(f"Playlist couldn't be made due to {e} error")
+        
+        else:
+            print("There is nothing in your playlist")
+            return
+        
+            
+
+
+
+
+        
+
+    
+    
+    
+  
     # open playlist file and append song
     # csv.writer
     # for loop for songid in songids
