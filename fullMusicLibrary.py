@@ -262,3 +262,124 @@ class MusicLibrary:
         except:
             return False
 
+
+    ## main program loop
+
+    # def function self
+    # print welcome to music app, 
+
+    # print:
+    # view library - 1
+    # add songs to library - 2
+    # delete songs
+    # add existing song to existing playlist - 3
+    # create new playlist - 4
+    # view an existing playlist - 5
+    # exit program - 6 
+
+    # store user input in "TaskType" variable as integer
+
+    # if taskType == 1:
+    #   self.viewLibrary()
+
+    # if taskType == 2:
+    #   self
+
+
+
+    def generateReport(self):
+        """create report on total songs, top 5 genres etc.."""
+
+        print("Here is your library report: ")
+
+        try:
+            with open(self.libraryFile, "r") as file:
+                reader = csv.reader(file)
+                next(reader)
+                songs = list(reader)
+
+                totalSongs = len([s for s in songs if s])
+                if totalSongs == 0 :
+                    print("You have no songs in your library.")
+                    return
+                
+                artists = {}
+                genres = {}
+                years = {}
+
+                for song in songs:
+                    if len(song) == 7:
+                        artist = song[2] or "unknown"
+                        genre = song[5] or "unknown"
+                        year = song[4] or "unknown"                        
+
+                        artists[artist] = artists.get(artist, 0) + 1
+                        genres[genre] = genres.get(genre, 0) + 1
+                        years[year] = years.get(year, 0) + 1
+
+                print(f"total songs = {totalSongs}")
+                print(f"total number of different artists = {len(artists)}")
+                print(f"total number of differnt genres = {len(genres)}")
+                print(f"total number of different years = {len(years)}")
+                print("Top 5 artists:")
+
+                sortedArtists = sorted(artists.items(), key = lambda x : x[1], reverse = True)[:5]
+                sortedGenres = sorted(genres.items(), key = lambda x : x[1], reverse = True)[:5]
+                sortedYears = sorted(years.items(), key = lambda x : x[1], reverse = True)[:5]
+
+                print("Top 5 genres:")
+                for genre, count in sortedGenres:
+                    print(f"{genre}: {count} songs")
+
+                print("Top 5 artists:")
+                for artist, count in sortedArtists:
+                    print(f"{artist}: {count} songs")
+
+                print("Top 5 years:")
+                for years, count in sortedYears:
+                    print(f"{years}: {count} songs")
+
+        except Exception as e:
+            print(f"Error generating report: {e}")
+
+
+    def run(self):
+        '''main program loop'''
+        print("Welcome to your music library! ")
+
+        while True:
+
+            print("view library - 1")
+            print("add songs to library - 2")
+            print("delete songs - 3")
+            print("search songs - 4")
+            print("create new playlist - 5")
+            print("generating report - 6")
+            print("exit program - 7")
+
+            choice = input("Enter number: ")
+
+            if choice == "1":
+                self.viewlibrary()
+            elif choice == "2":
+                self.addSong()
+            elif choice == "3":
+                self.deleteSong()
+            elif choice == "4":
+                self.searchSong()
+            elif choice == "5":
+                self.createPlaylist()
+            elif choice == "6":
+                self.generateReport()
+            elif choice == "7":
+                print("thank you for using our music library.")
+                break
+            else:
+                print("please only numbers from 1 - 7.")
+
+if __name__ == "__main__":
+    library = MusicLibrary()
+    library.run()
+
+                
+    
