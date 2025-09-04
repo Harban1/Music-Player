@@ -31,7 +31,8 @@ class MusicLibrary:
         
     
     def addSong(self):
-        print("Adding new song: ")
+        print("\nAdding new song: ")
+        print("-"*30)
         try:
             title = input("Enter song title: ").strip()
             if not title:
@@ -49,7 +50,7 @@ class MusicLibrary:
                 return
             
             while True:
-                yearInput = input("year: ").strip()
+                yearInput = input("Enter song year: ").strip()
                 if yearInput.isdigit() and len(yearInput) == 4:
                     year = int(yearInput)
                     break
@@ -73,7 +74,7 @@ class MusicLibrary:
                 writer = csv.writer(file)
                 writer.writerow([songid, title, artist, album, year, genre, duration])
 
-            print("song added successfully")
+            print("\n ** Song added successfully **")
 
         except (FileNotFoundError, ValueError):
                 return 1
@@ -82,7 +83,7 @@ class MusicLibrary:
 
     def viewlibrary(self):
 
-        print("Display library: ")
+        print("\nDisplay library: ")
 
         try:
             with open(self.libraryFile, "r") as file:
@@ -96,13 +97,13 @@ class MusicLibrary:
                 
                 # print("header", header)
                 print(" | ".join(header))
-                print("-" * 90)
+                print("-" * 55)
 
 
                 # print ID, title, ... under 20 characters
                 for row in reader:
-                    if len(row) > 20:
-                        row = row[:20] + "..."
+                    # if len(row) > 20:
+                    #     row = row[:20] + "..."
                     print(" | ".join(row))
                      
                     
@@ -290,7 +291,8 @@ class MusicLibrary:
     def generateReport(self):
         """create report on total songs, top 5 genres etc.."""
 
-        print("Here is your library report: ")
+        print("\nHere is your library report: ")
+        print("-"*40)
 
         try:
             with open(self.libraryFile, "r") as file:
@@ -317,25 +319,25 @@ class MusicLibrary:
                         genres[genre] = genres.get(genre, 0) + 1
                         years[year] = years.get(year, 0) + 1
 
-                print(f"total songs = {totalSongs}")
-                print(f"total number of different artists = {len(artists)}")
-                print(f"total number of differnt genres = {len(genres)}")
-                print(f"total number of different years = {len(years)}")
-                print("Top 5 artists:")
+                print(f"Total songs = {totalSongs}\n")
+                print(f"Total number of different artists = {len(artists)}")
+                print(f"Total number of differnt genres = {len(genres)}")
+                print(f"Total number of different years = {len(years)}")
+                
 
                 sortedArtists = sorted(artists.items(), key = lambda x : x[1], reverse = True)[:5]
                 sortedGenres = sorted(genres.items(), key = lambda x : x[1], reverse = True)[:5]
                 sortedYears = sorted(years.items(), key = lambda x : x[1], reverse = True)[:5]
 
-                print("Top 5 genres:")
+                print("\nTop 5 genres:")
                 for genre, count in sortedGenres:
                     print(f"{genre}: {count} songs")
 
-                print("Top 5 artists:")
+                print("\nTop 5 artists:")
                 for artist, count in sortedArtists:
                     print(f"{artist}: {count} songs")
 
-                print("Top 5 years:")
+                print("\nTop 5 years:")
                 for years, count in sortedYears:
                     print(f"{years}: {count} songs")
 
@@ -345,41 +347,54 @@ class MusicLibrary:
 
     def run(self):
         '''main program loop'''
-        print("Welcome to your music library! ")
+        print("\nWelcome to your music library!\n ")
 
         while True:
 
-            print("view library - 1")
-            print("add songs to library - 2")
-            print("delete songs - 3")
-            print("search songs - 4")
-            print("create new playlist - 5")
-            print("generating report - 6")
-            print("exit program - 7")
+            print("** MENU **")
+            print("-" * 30)
+            print("View library           - 1")
+            print("Add songs to library   - 2")
+            print("Delete songs           - 3")
+            print("Search songs           - 4")
+            print("Create new playlist    - 5")
+            print("Generating report      - 6")
+            print("Exit program           - 7")
 
-            choice = input("Enter number: ")
+            choice = input("\nEnter number: ")
 
             if choice == "1":
                 self.viewlibrary()
+                print("\n")
+
             elif choice == "2":
                 self.addSong()
+                print("\n")
+
             elif choice == "3":
                 self.deleteSong()
+                print("\n")
+
             elif choice == "4":
                 self.searchSong()
+                print("\n")
+
             elif choice == "5":
                 self.createPlaylist()
+                print("\n")
+
             elif choice == "6":
                 self.generateReport()
+                print("\n")
+
             elif choice == "7":
-                print("thank you for using our music library.")
+                print("Thank you for using our music library.")
                 break
+
             else:
-                print("please only numbers from 1 - 7.")
+                print("Please only numbers from 1 - 7.")
+                print("\n")
 
 if __name__ == "__main__":
     library = MusicLibrary()
     library.run()
-
-                
-    
